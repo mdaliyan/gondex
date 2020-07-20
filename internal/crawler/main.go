@@ -58,16 +58,25 @@ func ProcessDirectory(node *index.Node) {
 		}
 		return files[i].IsDir() && ! files[j].IsDir()
 	})
-	for _, f := range files {
-		if ! f.IsDir() {
-			break
+	var indexHtml = -1
+	for i, f := range files {
+		if !f.IsDir() {
+			if f.Name() == "index.html" {
+				indexHtml = i
+				break
+			}
+			continue
 		}
 		wg.Add(1)
 		newNode := NewNode()
 		*newNode = index.Node{Path: path.Join(node.Path, f.Name()), Level: node.Level + 1}
 		go putToQueue(newNode)
 	}
-	node.Files = files
+	if indexHtml == -1 {
+		node.Files = files
+	} else {
+		node.Files = append(files[:indexHtml], files[indexHtml+1:]...)
+	}
 
 	// generate index for this node
 	index.Generate(node)
