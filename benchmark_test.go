@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mdaliyan/gondex/cmd/internal/crawler"
+	"github.com/mdaliyan/gondex/internal/crawler"
 )
 
 func BenchmarkOsDir(b *testing.B) {

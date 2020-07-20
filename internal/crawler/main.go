@@ -8,7 +8,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/mdaliyan/gondex/cmd/internal/index"
+	"github.com/mdaliyan/gondex/internal/index"
 )
 
 var wg = sync.WaitGroup{}
@@ -69,6 +69,7 @@ func ProcessDirectory(node *index.Node) {
 	}
 	node.Files = files
 
+	// generate index for this node
 	index.Generate(node)
 
 	pool.Put(node)
